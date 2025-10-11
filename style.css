@@ -258,35 +258,21 @@ body.sleeping .dontwakeup {
     transform: scale(1.1);
 }
 
-#flag-pt {
+.flag-pt {
     background-image:
         radial-gradient(circle at 40% center, #FFEB5A 7px, transparent 9px),
         linear-gradient(90deg, #006600 40%, #ff0000 40%);
     background-repeat: no-repeat;
 }
 
-#flag-trans {
+.flag-trans {
     background: linear-gradient(90deg, #5BCEFA, #F5A9B8, #FFFFFF, #F5A9B8, #5BCEFA);
     background-repeat: no-repeat;
 }
 
-#flag-lesbian::before {
-    content: '';
-    /* Required to show up gradient */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
+.flag-lesbian {
     background: linear-gradient(90deg, #D52D00, #FF9A56, #FFFFFF, #D262A6, #A30262);
     background-repeat: no-repeat;
-
-    transition: opacity 0.4s ease-in-out;
-}
-
-.flag:hover#flag-lesbian::before {
-    opacity: 0;
 }
 
 
