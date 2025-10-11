@@ -350,7 +350,7 @@ body.sleeping .dontwakeup {
 }
 
 .fake-link {
-    color: var(--accent-hover); /* Using your bright hover color for visibility */
+    color: var(--accent-hover);
     text-decoration: underline; 
 }
 
