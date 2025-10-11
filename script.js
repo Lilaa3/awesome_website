@@ -57,7 +57,7 @@ function main() {
     setInterval(updateClock, 1000);
 }
 
-const popupTimers = {}; 
+const popupTimers = {};
 
 function copyPopup(textToCopy, name) {
     // This is how I find out js doesn´t have asserts, WTF

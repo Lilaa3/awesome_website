@@ -1,3 +1,5 @@
+/*TODO: organize more?*/
+
 :root {
     --bg-color: #1a1625;
     --text-color: #cbb5ff;
@@ -47,7 +49,7 @@ a:hover {
 button {
     background-color: transparent;
     border: none;
-    position: relative; 
+    position: relative;
 }
 
 header {
@@ -330,7 +332,7 @@ body.sleeping .dontwakeup {
     z-index: 1000;
     padding: 15px 30px;
     border-radius: 25px;
-    
+
     background: linear-gradient(135deg, rgba(160, 130, 255, 0.3) 0%, #933cbb 100%);
     color: white;
     font-size: 1.2em;
@@ -351,12 +353,13 @@ body.sleeping .dontwakeup {
 
 .fake-link {
     color: var(--accent-hover);
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
 
 @media (max-width: 768px) {
 
+    /* Adjust for mobile */
     .flags {
         justify-content: center;
     }
@@ -365,6 +368,7 @@ body.sleeping .dontwakeup {
     .project-cards {
         flex-direction: column;
         text-align: center;
+        align-items: center;
     }
 
     .info-text {
