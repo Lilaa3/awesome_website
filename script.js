@@ -55,6 +55,8 @@ function main() {
     setupSocialIcons();
     updateClock();
     setInterval(updateClock, 1000);
+
+    document.getElementById("current-year").textContent = new Date().getFullYear();
 }
 
 const popupTimers = {};
