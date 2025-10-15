@@ -5,40 +5,27 @@
 <script type="text/javascript" src="script.js"></script>
 
 <head>
-    <!-- Page setup -->
-    <meta charset="utf-8">
-    <title>Lila's awesome website</title>
-    <meta name="description" content="An awesome website about the one and only lila">
-    <meta name="author" content="Lilaa3">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="icon" type="image/png" href="images/favicon.png">
-
-    <!-- Stylesheets -->
-    <!-- Reset default styles and add support for google fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
-        type="text/css" />
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Handlee&display=swap"
-        rel="stylesheet">
-
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <div id="head-placeholder"></div>
+    <link href="style.css" rel="stylesheet" type="text/css" /> <!-- has to be manually included sadly -->
 </head>
 
 <body>
 
     <header id="header">
+        <div id="language-placeholder"></div>
+
         <img src="images/pfp purple.svg" class="pfp_image">
+        <h1 data-i18n="header_title">Lila's Awesome Website :D</h1>
 
-        <h1>Lila's Awesome Website :D</h1>
+        <h2 id="clock" data-i18n="header_clock_default" data-i18n-attr="clock"
+            clock-format-template="It's {time} for me!!!">Loading clock...</h2>
+        <h2 class="dontwakeup" data-i18n="header_sleep_egg">Don't wake her up.. Please :(</h2>
 
-        <h2 id="clock">It's 0:00 for me</h2>
-        <h2 class="dontwakeup">Don't wake her up.. Please :(</h2>
-
-        <!-- Sleep easter egg -->
-        <img id="asleep_img" src="images/let her sleep.svg">
+        <img id="asleep_img" alt="Lila sleeping" data-i18n="sleeping_alt" data-i18n-attr="alt"
+            src="images/let her sleep.svg">
 
         <div class="container">
-            <h1 style="margin-top: 2rem;">Cool socials?? :O</h1>
+            <h1 style="margin-top: 2rem;" data-i18n="socials_heading">Cool socials?? :O</h1>
             <a href="https://www.youtube.com/channel/UCIiYaie0cJNOU0EzW8tl8fw" width="50" height="50">
                 <img src="images/youtube.svg" alt="Youtube" class="social_icons" style="animation-delay: 0.1s;">
             </a>
@@ -47,6 +34,9 @@
             </a>
             <a href="https://www.twitch.tv/lilaa3tv" width="50" height="50">
                 <img src="images/twitch.svg" alt="Twitch" class="social_icons" style="animation-delay: 0.0;">
+            </a>
+            <a href="https://web-cdn.bsky.app/profile/lilaa3.bsky.social" width="50" height="50">
+                <img src="images/bluesky.svg" alt="Bluesky" class="social_icons" style="animation-delay: 0.4s;">
             </a>
             <a href="https://www.github.com/Lilaa3" width="50" height="50">
                 <img src="images/github.svg" alt="Github" class="social_icons" style="animation-delay: 0.2s;">
@@ -64,47 +54,50 @@
 
         <div class="info-card">
             <div class="info-image">
-                <img src="images/pfp.svg" alt="My profile picture">
+                <img src="images/pfp.svg" data-i18n="my_profile_picture_alt" data-i18n-attr="alt"
+                    alt="My profile picture">
             </div>
             <div class="info-text">
-                <h2>Heya! My name is Liliana (Lila)</h2>
-                <p>
+                <h2 data-i18n="about_heading">Heya! My name is Liliana (Lila)</h2>
+                <p data-i18n="about_para1">
                     I'm a 19 year old woman with an interest in game development and related fields, like software
                     development. I have experience contributing to some projects.
                 </p>
-                <p>
+                <p data-i18n="about_para2">
                     I currently plan to study and intern in IT, and hopefully (officially) study CompSci or Software
                     Engineering.
                     I'm very capable of learning things on my own, in fact I'd say my adaptability is something I'm
                     quite proud of, but it is a dream of mine.
                 </p>
-                <p>
+                <p data-i18n="about_para3">
                     I've had interest in all things computer since.. well since I can remember, really. I grew up around
                     them, with good ol Windows 7, sometimes XP.
                     Kinda made me a linux nerd later on.
                 </p>
-                <p>
+                <p data-i18n="about_para4">
                     But anyways, my interest in game development has existed since I was around 11.
                     I learned the basics of programming in Lua, and then used Unity Engine for a few years,
                     eventually gaining an interest in the SM64 community and related N64 communities.
                 </p>
                 <div class="flags">
                     <div class="flag flag-pt">
-                        <img src="images/bacalhau.png" alt="Cod easter egg">
+                        <img src="images/bacalhau.png" data-i18n="cod_easter_egg_alt" data-i18n-attr="alt"
+                            alt="Cod easter egg">
                     </div>
                     <div class="flag flag-trans"></div>
                     <div class="flag flag-lesbian">
-                        <img src="images/bacon.png" alt="Bacon easter egg">
+                        <img src="images/bacon.png" data-i18n="bacon_easter_egg_alt" data-i18n-attr="alt"
+                            alt="Bacon easter egg">
                     </div>
 
                 </div>
 
-                <h3>Software Development Skills:</h3>
-                <p>
+                <h3 data-i18n="skills_dev_heading">Software Development Skills:</h3>
+                <p data-i18n="skills_dev_desc">
                     I'm well versed in game development and graphics, specializing in N64 but also capable of using
                     modern frameworks and engines.
                 </p>
-                <h4>Proficient:</h4>
+                <h4 data-i18n="skills_proficient">Proficient:</h4>
                 <ul class="skills-list">
                     <li><i class="devicon-cplusplus-plain"></i> C/C++</li>
                     <li><i class="devicon-csharp-plain"></i> C#</li>
@@ -116,7 +109,7 @@
                     <li><i class="devicon-git-plain"></i> Git</li>
                 </ul>
 
-                <h4>Limited Experience:</h4>
+                <h4 data-i18n="skills_limited">Limited Experience:</h4>
                 <ul class="skills-list">
                     <li><i class="devicon-javascript-plain"></i> JS</li>
                     <li><i class="devicon-html5-plain"></i> HTML / CSS</li>
@@ -126,39 +119,42 @@
                     <li>MIPS 3</li>
                 </ul>
 
-                <h3>Other Skills:</h3>
+                <h3 data-i18n="skills_other_heading">Other Skills:</h3>
                 <ul class="skills-list">
-                    <li>Video Editing (Vegas Pro)</li>
-                    <li>Low-Poly Modeling</li>
-                    <li>Basic Texturing</li>
-                    <li>Localization (pt-pt)</li>
+                    <li data-i18n="skill_video_editing">Video Editing (Vegas Pro)</li>
+                    <li data-i18n="skill_low_poly">Low-Poly Modeling</li>
+                    <li data-i18n="skill_texturing">Basic Texturing</li>
+                    <li data-i18n="skill_localization">Localization (pt-pt)</li>
                 </ul>
             </div>
         </div>
 
         <div class="projects-card">
-            <h2>Things I've contibuted to so far!</h2>
+            <h2 data-i18n="projects_heading">Things I've contibuted to so far!</h2>
             <div class="project">
-                <img src="images/fast64.svg" alt="Fast64 Logo" class="project-logo"></img>
+                <img src="images/fast64.svg" data-i18n="fast64_logo_alt" data-i18n-attr="alt" alt="Fast64 Logo"
+                    class="project-logo"></img>
                 <h3 class="project-title">Fast 64</h3>
             </div>
-            <h3>Blender Plugin for N64 Development</h3>
-            <p>As a developer for F3D and SM64 side, along with the experimental renderer!</p>
+            <h3 data-i18n="fast64_desc">Blender Plugin for N64 Development</h3>
+            <p data-i18n="fast64_role">As a developer for F3D and SM64 side, along with the experimental renderer
+                (OpenGL)!</p>
 
             <div class="project">
-                <img src="images/pl.svg" alt="Parallel Launcher Logo" class="project-logo"></img>
+                <img src="images/pl.svg" data-i18n="pl_logo_alt" data-i18n-attr="alt" alt="Parallel Launcher Logo"
+                    class="project-logo"></img>
                 <h3 class="project-title">Parallel Launcher</h3>
             </div>
-            <h3>N64 Emulator with a focus on ease of use and rom hacks!</h3>
-            <p>As the translator for Portugual Portuguese.</p>
+            <h3 data-i18n="pl_desc">N64 Emulator with a focus on ease of use and ROM hacks!</h3>
+            <p data-i18n="pl_role">As the translator for Portugual Portuguese.</p>
         </div>
 
         <div class="contact-card">
-            <h2>Let's chat!</h2>
-            <p>
+            <h2 data-i18n="contact_heading">Let's chat!</h2>
+            <p data-i18n="contact_para1">
                 While you can DM me on Twitter or Twitch, I'd advise against it.
             </p>
-            <p> Use Email and Discord as I check those every day!
+            <p data-i18n="contact_para2"> Use Email and Discord as I check those every day!
             </p>
             <a href="mailto:lilaa3public@gmail.com" width="50" height="50">
                 <img src="images/mail.svg" alt="Email" class="social_icons" style="animation-delay: 0.0s;">
@@ -166,7 +162,8 @@
 
             <button width="50" height="50" onclick="copyPopup('lilaa3', 'discord')">
                 <div id="copy-popup-discord" class="copy-popup">
-                    <span class="fake-link">@Lilaa3</span> (Copied to your clipboard!)
+                    <span class="fake-link">@Lilaa3</span> <span data-i18n="copy_popup_text">(Copied to your
+                        clipboard!)</span>
                 </div>
                 <img src="images/discord.svg" alt="Discord" class="social_icons" style="animation-delay: 0.1s;">
             </button>
@@ -178,10 +175,7 @@
 
     <footer>
         <h1><a href="under_construction.html">🐾</a></h1>
-        <h3>© 2025-<container id="current-year">2025</container> @Lilaa3 (on <i class="devicon-github-plain"></i>)</h3>
-        <p>With icons from iconoir, tabler and devicon</p>
-        <p>and the iconic Lila design by <a
-                href="https://web-cdn.bsky.app/profile/ornevelder.bsky.social">@<b>ornevelder</a> and my sister.</p>
+        <div id="footer-placeholder"></div>
     </footer>
 
 </body>

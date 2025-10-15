@@ -19,6 +19,13 @@ body {
     margin: 0;
     padding: 2rem;
     overflow-x: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.loaded {
+    opacity: 1;
+    visibility: visible;
     animation: fadeIn 0.5s ease-out;
 }
 
@@ -60,6 +67,14 @@ header {
     gap: 1rem;
 }
 
+.language-selector {
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    filter: drop-shadow(0 0 10px rgba(160, 130, 255, 1));
+}
 
 .pfp_image {
     margin-top: 20px;
@@ -262,6 +277,20 @@ body.sleeping .dontwakeup {
     background-image:
         radial-gradient(circle at 40% center, #FFEB5A 7px, transparent 9px),
         linear-gradient(90deg, #006600 40%, #ff0000 40%);
+    background-repeat: no-repeat;
+}
+
+.flag-us {
+    background-image:
+        linear-gradient(#3C3B6E, #3C3B6E),
+        repeating-linear-gradient(#B22234,
+            #B22234 calc(100% / 13),
+            #FFF calc(100% / 13),
+            #FFF calc(200% / 13));
+    background-size:
+        40% calc(100% * 7 / 13),
+        100% 100%;
+    background-position: top left;
     background-repeat: no-repeat;
 }
 

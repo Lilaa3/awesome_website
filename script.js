@@ -1,6 +1,70 @@
+async function loadComponent(elementId, filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${filePath}: ${response.statusText}`);
+        }
+        const html = await response.text();
+        document.getElementById(elementId).innerHTML = html;
+
+        document.dispatchEvent(new CustomEvent('component:loaded', { detail: { component: elementId } }));
+
+    } catch (error) {
+        console.error("Error loading component:", error);
+    }
+}
+
+
 const TIMEZONE = "Europe/London";
 const DEBUG_MODE = false;
 const DEBUG_TIME = "03:00"; // 24 hour format
+
+let gCurrentLanguage = null;
+
+/*Load from json and apply language*/
+async function setLanguage(lang) {
+    if (gCurrentLanguage === lang) return; // skip if already loaded
+
+    let data;
+    // get the translation data from json
+    try {
+        const response = await fetch(`locales/${lang}.json`);
+        data = await response.json();
+        console.log(`Loaded translations for ${lang}`);
+    } catch (error) {
+        console.error(`Error loading language ${lang}:`, error);
+        return;
+    }
+
+    gCurrentLanguage = lang;
+
+    document.title = data.page_title;
+    document.querySelectorAll('[data-i18n]').forEach(element => { // all localized elements
+        const key = element.getAttribute('data-i18n');
+        if (data[key]) {
+            const attr = element.getAttribute('data-i18n-attr');
+            if (attr === 'alt') { // special case for alt
+                element.setAttribute('alt', data[key]);
+            }
+            else if (attr === 'clock') {
+                element.setAttribute('clock-format-template', data[key]);
+            }
+            else {
+                element.innerHTML = data[key];
+            }
+        }
+    });
+
+    // save the preference
+    localStorage.setItem('language', lang);
+
+    updateClock(); // update clock since this resets it
+}
+
+function initializeLanguage() {
+    const savedLang = localStorage.getItem('language') || 'en';
+    setLanguage(savedLang);
+}
 
 // Social icons, animations!
 // Basic hover can be done in css butttt i wanted the bob animation to pause on hover
@@ -33,6 +97,11 @@ function getCurrentTime() {
 }
 
 function updateClock() {
+    const clockEl = document.getElementById("clock");
+    if (!clockEl) {
+        console.log("Clock element not found");
+        return;
+    }
     const now = getCurrentTime();
     const hours = now.getHours();
     const formattedTime = now.toLocaleTimeString("en-US", {
@@ -45,18 +114,30 @@ function updateClock() {
     const isAwake = hours >= 7 && hours < 23;
     document.body.classList.toggle("sleeping", !isAwake);
 
-    const clockEl = document.getElementById("clock");
-    clockEl.textContent = `It’s ${formattedTime} for me!! :O`;;
+    const template = clockEl.getAttribute("clock-format-template");
+    clockEl.textContent = template.replace("{time}", formattedTime);
 }
 
 
 
 function main() {
+    // Set the footer
+    loadComponent('head-placeholder', 'head.html')
+    loadComponent("language-placeholder", "language_options.html")
+    loadComponent('footer-placeholder', 'footer.html')
+
+    initializeLanguage();
     setupSocialIcons();
     updateClock();
     setInterval(updateClock, 1000);
 
-    document.getElementById("current-year").textContent = new Date().getFullYear();
+    const copyrightYear = document.getElementById("copyright-year");
+    if (copyrightYear) {
+        copyrightYear.textContent = new Date().getFullYear();
+    }
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 120); // wow lila thats such a high number! its noticable lila! aha firefox you're fucking my css. you piece of absolute garbage
 }
 
 const popupTimers = {};
