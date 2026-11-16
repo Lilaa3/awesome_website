@@ -1,3 +1,12 @@
+function getBasePath() {
+    const path = window.location.pathname;
+    if (path.includes("/pages/blog_posts/")) return "../../";
+    if (path.includes("/pages/")) return "../";
+    return "./";
+}
+
+const BASE_PATH = getBasePath();
+
 const CONFIG = {
     timezone: "Europe/London",
     birthDate: { year: 2006, month: 9, day: 14 },
@@ -5,9 +14,9 @@ const CONFIG = {
     debugTime: "03:00", // 24-hour format
     kofiUsername: "lilaa3",
     components: [
-        ["head-placeholder", "head.html"],
-        ["header-placeholder", "header.html"],
-        ["footer-placeholder", "footer.html"],
+        ["head-placeholder", `${BASE_PATH}pages/templates/head.html`],
+        ["header-placeholder", `${BASE_PATH}pages/templates/header.html`],
+        ["footer-placeholder", `${BASE_PATH}pages/templates/footer.html`],
     ],
 };
 
@@ -27,6 +36,14 @@ async function loadComponent(elementId, filePath) {
         if (!element) throw new Error(`Target element #${elementId} not found`);
 
         element.innerHTML = await response.text();
+        element.querySelectorAll("[data-root-src]").forEach((el) => {
+            el.setAttribute("src", BASE_PATH + el.dataset.rootSrc);
+            el.removeAttribute("data-root-src");
+        });
+        element.querySelectorAll("[data-root-href]").forEach((el) => {
+            el.setAttribute("href", BASE_PATH + el.dataset.rootHref);
+            el.removeAttribute("data-root-href");
+        });
         document.dispatchEvent(new CustomEvent("component:loaded", { detail: { component: elementId } }));
     } catch (error) {
         console.error(`Failed to load component "${elementId}" from "${filePath}":`, error);
@@ -54,7 +71,7 @@ async function setLanguage(lang) {
     if (state.currentLanguage === lang) return;
 
     try {
-        const response = await fetch(`locales/${lang}.json`);
+        const response = await fetch(`${BASE_PATH}locales/${lang}.json`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
 
