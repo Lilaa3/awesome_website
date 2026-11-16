@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <div id="head-placeholder"></div>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title data-i18n="bday_title">Birthday - Lila's Website</title>
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <div id="nav-links">
+        <a href="index.html" class="nav-link" data-i18n="nav_home">Home</a>
+        <a href="blog.html" class="nav-link" data-i18n="nav_blog">Blog</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav_contact">Contact</a>
+    </div>
+
+    <div id="language-placeholder"></div>
+    <main class="bday-main">
+        <div class="info-card bday-card">
+            <div class="info-text">
+                <h2 data-i18n="bday_title">Birthday</h2>
+                <p class="bday-subtitle" data-i18n="bday_subtitle">Born 14 September 2006</p>
+
+                <div class="countdown" id="countdown">
+                    <div class="countdown-row">
+                        <span class="countdown-value" id="cd-days">0</span>
+                        <span class="countdown-label" data-i18n="bday_days">Days</span>
+                    </div>
+                    <div class="countdown-row">
+                        <span class="countdown-value" id="cd-hours">0</span>
+                        <span class="countdown-label" data-i18n="bday_hours">Hours</span>
+                    </div>
+                    <div class="countdown-row">
+                        <span class="countdown-value" id="cd-minutes">0</span>
+                        <span class="countdown-label" data-i18n="bday_minutes">Minutes</span>
+                    </div>
+                    <div class="countdown-row">
+                        <span class="countdown-value" id="cd-seconds">0</span>
+                        <span class="countdown-label" data-i18n="bday_seconds">Seconds</span>
+                    </div>
+                </div>
+
+                <p data-i18n="bday_message">I'm <span id="current-age">20</span> years old. Next birthday: <span
+                        id="next-bday-date"></span></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div id="footer-placeholder"></div>
+    </footer>
+
+    <script type="text/javascript" src="script.js"></script>
+
+    <script>
+        const BIRTHDAY_MONTH = 8;  // 0-indexed
+        const BIRTHDAY_DAY = 14;
+        const BIRTHDAY_YEAR = 2006;
+
+        function getLisbonNow() {
+            return new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Lisbon" }));
+        }
+
+        function getNextBirthday(fromDate) {
+            const year = fromDate.getFullYear();
+            let next = new Date(year, BIRTHDAY_MONTH, BIRTHDAY_DAY, 0, 0, 0);
+            const lisbonStr = next.toLocaleString("en-US", { timeZone: "Europe/Lisbon" });
+            next = new Date(lisbonStr);
+
+            if (next <= fromDate) {
+                next = new Date(year + 1, BIRTHDAY_MONTH, BIRTHDAY_DAY, 0, 0, 0);
+                const lisbonStr2 = next.toLocaleString("en-US", { timeZone: "Europe/Lisbon" });
+                next = new Date(lisbonStr2);
+            }
+            return next;
+        }
+
+        function calculateAge() {
+            const now = getLisbonNow();
+            let age = now.getFullYear() - BIRTHDAY_YEAR;
+            const m = now.getMonth() + 1;
+            const d = now.getDate();
+            if (m < 9 || (m === 9 && d < 14)) age--;
+            return age;
+        }
+
+        function updateCountdown() {
+            const now = getLisbonNow();
+            const nextBday = getNextBirthday(now);
+            const diffMs = nextBday - now;
+            if (diffMs <= 0) { location.reload(); return; }
+
+            const days = Math.floor(diffMs / 864e5);
+            const hours = String(Math.floor((diffMs % 864e5) / 36e5)).padStart(2, '0');
+            const minutes = String(Math.floor((diffMs % 36e5) / 6e4)).padStart(2, '0');
+            const seconds = String(Math.floor((diffMs % 6e4) / 1e3)).padStart(2, '0');
+
+            document.getElementById('cd-days').textContent = days;
+            document.getElementById('cd-hours').textContent = hours;
+            document.getElementById('cd-minutes').textContent = minutes;
+            document.getElementById('cd-seconds').textContent = seconds;
+
+            document.getElementById('current-age').textContent = calculateAge();
+
+            const nextBdayEl = document.getElementById('next-bday-date');
+            if (nextBdayEl) {
+                nextBdayEl.textContent = nextBday.toLocaleDateString('en-US', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                    timeZone: 'Europe/Lisbon'
+                });
+            }
+        }
+
+        let countdownStarted = false;
+        function startCountdown() {
+            updateCountdown();
+            if (countdownStarted) return;
+            countdownStarted = true;
+            setInterval(updateCountdown, 1000);
+        }
+
+        document.addEventListener('language:updated', startCountdown);
+    </script>
+</body>
+
+</html>

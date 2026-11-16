@@ -83,6 +83,11 @@ header {
     filter: drop-shadow(0 0 10px rgba(160, 130, 255, 0.5));
 }
 
+.age-hover {
+    text-decoration: underline dotted;
+    cursor: pointer;
+}
+
 .social_icons {
     width: 48px;
     height: 48px;
@@ -99,9 +104,8 @@ header {
 
 
 .kofi {
-    filter: drop-shadow(0 0 10px rgba(160, 130, 255, 0.5));
-    transition: transform 0.2s ease;
-    transition: filter 0.2s ease;
+    visibility: visible;
+    opacity: 1;
 }
 
 .kofi:hover {
@@ -117,6 +121,22 @@ header {
     font-weight: bold;
     font-size: 1.1rem;
     margin: 0 0.75rem;
+}
+
+.nav-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(184, 157, 253, 0.3);
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-hover);
+    background: rgba(184, 157, 253, 0.1);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 #clock {
@@ -441,4 +461,140 @@ footer {
     100% {
         transform: scale(1.25);
     }
+}
+
+/* Blog page styles */
+.blog-main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.blog-main h1 {
+    color: var(--accent-hover);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.blog-month-section {
+    margin-bottom: 3rem;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.blog-month-header {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.blog-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.blog-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.6s ease-out;
+    border: 1px solid rgba(184, 157, 253, 0.1);
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(184, 157, 253, 0.2);
+    border-color: rgba(184, 157, 253, 0.3);
+}
+
+.blog-card-content {
+    text-align: left;
+}
+
+.blog-card-title {
+    color: var(--accent-hover);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.blog-card-date {
+    color: #8d7fc1;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.blog-card-excerpt {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.blog-card-link {
+    display: inline-block;
+    color: var(--accent-color);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.blog-card-link:hover {
+    color: var(--accent-hover);
+}
+
+/* Birthday page styles */
+.bday-main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.bday-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.bday-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(184, 157, 253, 0.1);
+}
+
+.bday-date {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.countdown-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+}
+
+.countdown-value {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(184, 157, 253, 0.5);
+    line-height: 1;
+}
+
+.bday-card .info-text {
+    text-align: center;
 }

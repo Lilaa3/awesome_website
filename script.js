@@ -1,107 +1,112 @@
+const CONFIG = {
+    timezone: "Europe/London",
+    birthDate: { year: 2006, month: 9, day: 14 },
+    debugMode: false,
+    debugTime: "03:00", // 24-hour format
+    kofiUsername: "lilaa3",
+    components: [
+        ["head-placeholder", "head.html"],
+        ["header-placeholder", "header.html"],
+        ["footer-placeholder", "footer.html"],
+    ],
+};
+
+const state = {
+    currentLanguage: null,
+    clockInterval: null,
+    popupTimers: new Map(),
+};
+
+// Component & Widget Loading
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
-        if (!response.ok) {
-            throw new Error(`Failed to load ${filePath}: ${response.statusText}`);
-        }
-        const html = await response.text();
-        document.getElementById(elementId).innerHTML = html;
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 
-        document.dispatchEvent(new CustomEvent('component:loaded', { detail: { component: elementId } }));
+        const element = document.getElementById(elementId);
+        if (!element) throw new Error(`Target element #${elementId} not found`);
 
+        element.innerHTML = await response.text();
+        document.dispatchEvent(new CustomEvent("component:loaded", { detail: { component: elementId } }));
     } catch (error) {
-        console.error("Error loading component:", error);
+        console.error(`Failed to load component "${elementId}" from "${filePath}":`, error);
     }
 }
 
+function loadKofiWidget() {
+    const script = document.createElement("script");
+    script.src = "https://storage.ko-fi.com/cdn/scripts/overlay-widget.js";
+    script.onload = () => {
+        if (window.kofiWidgetOverlay) {
+            kofiWidgetOverlay.draw(CONFIG.kofiUsername, {
+                type: "floating-chat",
+                "floating-chat.donateButton.text": "Support me",
+                "floating-chat.donateButton.background-color": "#794bc4",
+                "floating-chat.donateButton.text-color": "#fff",
+            });
+        }
+    };
+    document.body.appendChild(script);
+}
 
-const TIMEZONE = "Europe/London";
-const DEBUG_MODE = false;
-const DEBUG_TIME = "03:00"; // 24 hour format
-
-let gCurrentLanguage = null;
-
-/*Load from json and apply language*/
+// Localization (i18n)
 async function setLanguage(lang) {
-    if (gCurrentLanguage === lang) return; // skip if already loaded
+    if (state.currentLanguage === lang) return;
 
-    let data;
-    // get the translation data from json
     try {
         const response = await fetch(`locales/${lang}.json`);
-        data = await response.json();
-        console.log(`Loaded translations for ${lang}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        state.currentLanguage = lang;
+        document.title = data.page_title || document.title;
+
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+            const key = element.getAttribute("data-i18n");
+            const translation = data[key];
+            if (!translation) return;
+
+            const attr = element.getAttribute("data-i18n-attr");
+            if (attr === "alt") {
+                element.setAttribute("alt", translation);
+            } else if (attr === "clock") {
+                element.setAttribute("clock-format-template", translation);
+            } else {
+                element.innerHTML = translation;
+            }
+        });
+
+        localStorage.setItem("language", lang);
+        updateClock();
+        updateAge();
+
+        document.dispatchEvent(new CustomEvent("language:updated"));
     } catch (error) {
-        console.error(`Error loading language ${lang}:`, error);
-        return;
+        console.error(`Error loading language "${lang}":`, error);
     }
-
-    gCurrentLanguage = lang;
-
-    document.title = data.page_title;
-    document.querySelectorAll('[data-i18n]').forEach(element => { // all localized elements
-        const key = element.getAttribute('data-i18n');
-        if (data[key]) {
-            const attr = element.getAttribute('data-i18n-attr');
-            if (attr === 'alt') { // special case for alt
-                element.setAttribute('alt', data[key]);
-            }
-            else if (attr === 'clock') {
-                element.setAttribute('clock-format-template', data[key]);
-            }
-            else {
-                element.innerHTML = data[key];
-            }
-        }
-    });
-
-    // save the preference
-    localStorage.setItem('language', lang);
-
-    updateClock(); // update clock since this resets it
 }
 
 function initializeLanguage() {
-    const savedLang = localStorage.getItem('language') || 'en';
-    setLanguage(savedLang);
+    const langMap = { en: "en-us", pt: "pt-pt" };
+    const saved = localStorage.getItem("language") || "en-us";
+    setLanguage(langMap[saved] || saved);
 }
 
-// Social icons, animations!
-// Basic hover can be done in css butttt i wanted the bob animation to pause on hover
-function setupSocialIcons() {
-    const icons = document.querySelectorAll(".social_icons");
-
-    for (const icon of icons) {
-        icon.addEventListener("mouseenter", () => {
-            icon.style.animation = "scaleUpKeyframes 0.2s forwards";
-        });
-
-        icon.addEventListener("mouseleave", () => {
-            icon.style.animation = "bobbingKeyframes 2s infinite steps(3)";
-        });
-    }
-}
-
+// Dynamic UI (Clock, Age, Animations)
 function getCurrentTime() {
-    if (DEBUG_MODE) {
-        // Parse debug time manually
-        const [h, m] = DEBUG_TIME.split(":").map(Number);
-        const now = new Date();
-        now.setHours(h, m, 0, 0);
-        return now;
+    if (CONFIG.debugMode) {
+        const [h, m] = CONFIG.debugTime.split(":").map(Number);
+        const debugDate = new Date();
+        debugDate.setHours(h, m, 0, 0);
+        return debugDate;
     }
-
-    return new Date(
-        new Date().toLocaleString("en-US", { timeZone: TIMEZONE })
-    );
+    return new Date(new Date().toLocaleString("en-US", { timeZone: CONFIG.timezone }));
 }
 
 function updateClock() {
     const clockEl = document.getElementById("clock");
-    if (!clockEl) {
-        console.log("Clock element not found");
-        return;
-    }
+    if (!clockEl) return;
+
     const now = getCurrentTime();
     const hours = now.getHours();
     const formattedTime = now.toLocaleTimeString("en-US", {
@@ -110,62 +115,94 @@ function updateClock() {
         second: "2-digit",
     });
 
-    // Simple day/night logic
     const isAwake = hours >= 7 && hours < 23;
     document.body.classList.toggle("sleeping", !isAwake);
 
-    const template = clockEl.getAttribute("clock-format-template");
+    const template = clockEl.getAttribute("clock-format-template") || "{time}";
     clockEl.textContent = template.replace("{time}", formattedTime);
 }
 
-
-
-function main() {
-    // Set the footer
-    loadComponent('head-placeholder', 'head.html')
-    loadComponent("language-placeholder", "language_options.html")
-    loadComponent('footer-placeholder', 'footer.html')
-
-    initializeLanguage();
-    setupSocialIcons();
+function startClock() {
     updateClock();
-    setInterval(updateClock, 1000);
+    if (state.clockInterval) clearInterval(state.clockInterval);
+    state.clockInterval = setInterval(updateClock, 1000);
+}
 
-    const copyrightYear = document.getElementById("copyright-year");
+function updateAge() {
+    const ageEl = document.getElementById("age");
+    if (!ageEl) return;
+
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Lisbon" }));
+    const { year, month, day } = CONFIG.birthDate;
+
+    let age = now.getFullYear() - year;
+    const currentMonth = now.getMonth() + 1;
+    if (currentMonth < month || (currentMonth === month && now.getDate() < day)) {
+        age--;
+    }
+
+    ageEl.textContent = age;
+}
+
+function setupSocialIcons() {
+    document.querySelectorAll(".social_icons").forEach((icon) => {
+        icon.addEventListener("mouseenter", () => {
+            icon.style.animation = "scaleUpKeyframes 0.2s forwards";
+        });
+        icon.addEventListener("mouseleave", () => {
+            icon.style.animation = "bobbingKeyframes 2s infinite steps(3)";
+        });
+    });
+}
+
+// Utilities & Initialization
+async function copyPopup(textToCopy, name) {
+    try {
+        await navigator.clipboard.writeText(textToCopy);
+
+        const sound = document.getElementById("copy-sound");
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play().catch(() => {}); // Ignore autoplay restriction errors
+        }
+
+        const popup = document.getElementById(`copy-popup-${name}`);
+        if (!popup) return;
+
+        if (state.popupTimers.has(name)) {
+            clearTimeout(state.popupTimers.get(name));
+        }
+
+        popup.classList.add("show");
+        const timerId = setTimeout(() => {
+            popup.classList.remove("show");
+            state.popupTimers.delete(name);
+        }, 1500);
+
+        state.popupTimers.set(name, timerId);
+    } catch (error) {
+        console.error("Failed to copy text:", error);
+    }
+}
+
+async function initPage() {
+    // Load all HTML
+    await Promise.all(
+        CONFIG.components.map(([id, path]) => loadComponent(id, path))
+    );
+
+    // Update footer copyright year after footer is guaranteed to be in the DOM
+    const copyrightYear = document.getElementById("current-year");
     if (copyrightYear) {
         copyrightYear.textContent = new Date().getFullYear();
     }
-    setTimeout(() => {
-        document.body.classList.add('loaded');
-    }, 120); // wow lila thats such a high number! its noticable lila! aha firefox you're fucking my css. you piece of absolute garbage
+
+    await initializeLanguage();
+    setupSocialIcons();
+    startClock();
+    loadKofiWidget();
+
+    document.body.classList.add("loaded");
 }
 
-const popupTimers = {};
-
-function copyPopup(textToCopy, name) {
-    // This is how I find out js doesn´t have asserts, WTF
-    const popup = document.getElementById('copy-popup-' + name);
-    const sound = document.getElementById('copy-sound');
-
-    navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-            if (sound) {
-                sound.currentTime = 0;
-                sound.play();
-            }
-
-            if (popup) {
-                if (popupTimers[name]) {
-                    clearTimeout(popupTimers[name]);
-                    popupTimers[name] = null; // why can't i use delete as stated in mdn
-                    console.log('clearing timer')
-                }
-                popup.classList.add('show');
-                popupTimers[name] = setTimeout(() => {
-                    popup.classList.remove('show');
-                }, 1500);
-            }
-        })
-}
-
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener("DOMContentLoaded", initPage);

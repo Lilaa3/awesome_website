@@ -11,56 +11,27 @@
 
 <body>
 
-    <header id="header">
-        <div id="language-placeholder"></div>
+    <div id="header-placeholder"></div>
 
-        <img src="images/pfp purple.svg" class="pfp_image">
-        <h1 data-i18n="header_title">Lila's Awesome Website :D</h1>
+    <div id="nav-links">
+        <a href="blog.html" class="nav-link" data-i18n="nav_blog">Blog</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav_contact">Contact</a>
+    </div>
 
-        <h2 id="clock" data-i18n="header_clock_default" data-i18n-attr="clock"
-            clock-format-template="It's {time} for me!!!">Loading clock...</h2>
-        <h2 class="dontwakeup" data-i18n="header_sleep_egg">Don't wake her up.. Please :(</h2>
+    <div id="language-placeholder"></div>
 
-        <img id="asleep_img" alt="Lila sleeping" data-i18n="sleeping_alt" data-i18n-attr="alt"
-            src="images/let her sleep.svg">
-
-        <div class="container">
-            <h1 style="margin-top: 2rem;" data-i18n="socials_heading">Cool socials?? :O</h1>
-            <a href="https://www.youtube.com/channel/UCIiYaie0cJNOU0EzW8tl8fw" width="50" height="50">
-                <img src="images/youtube.svg" alt="Youtube" class="social_icons" style="animation-delay: 0.1s;">
-            </a>
-            <a href="https://www.twitter.com/Lilaa310" width="50" height="50">
-                <img src="images/twitter.svg" alt="Twitter" class="social_icons" style="animation-delay: 0.3s;">
-            </a>
-            <a href="https://www.twitch.tv/lilaa3tv" width="50" height="50">
-                <img src="images/twitch.svg" alt="Twitch" class="social_icons" style="animation-delay: 0.0;">
-            </a>
-            <a href="https://web-cdn.bsky.app/profile/lilaa3.bsky.social" width="50" height="50">
-                <img src="images/bluesky.svg" alt="Bluesky" class="social_icons" style="animation-delay: 0.4s;">
-            </a>
-            <a href="https://www.github.com/Lilaa3" width="50" height="50">
-                <img src="images/github.svg" alt="Github" class="social_icons" style="animation-delay: 0.2s;">
-            </a>
-        </div>
-
-        <container class="kofi">
-            <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-            <script
-                type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#be7dff', 'T6T21K3G29'); kofiwidget2.draw();</script>
-        </container>
-    </header>
+    <h2 class="dontwakeup" data-i18n="header_sleep_egg">Don't wake her up.. Please :(</h2>
+    <img id="asleep_img" alt="Lila sleeping" data-i18n="sleeping_alt" data-i18n-attr="alt"
+        src="images/let her sleep.svg">
 
     <div class="info-sections">
 
         <div class="info-card">
-            <div class="info-image">
-                <img src="images/pfp.svg" data-i18n="my_profile_picture_alt" data-i18n-attr="alt"
-                    alt="My profile picture">
-            </div>
             <div class="info-text">
                 <h2 data-i18n="about_heading">Heya! My name is Liliana (Lila)</h2>
                 <p data-i18n="about_para1">
-                    I'm a 19 year old woman with an interest in game development and related fields, like software
+                    I'm a <a href="birthday.html" class="age-hover" title="Click for birthday countdown">20 year old</a>
+                    woman with an interest in game development and related fields, like software
                     development. I have experience contributing to some projects.
                 </p>
                 <p data-i18n="about_para2">
@@ -131,49 +102,40 @@
 
         <div class="projects-card">
             <h2 data-i18n="projects_heading">Things I've contibuted to so far!</h2>
-            <div class="project">
-                <img src="images/fast64.svg" data-i18n="fast64_logo_alt" data-i18n-attr="alt" alt="Fast64 Logo"
-                    class="project-logo"></img>
-                <h3 class="project-title">Fast 64</h3>
-            </div>
-            <h3 data-i18n="fast64_desc">Blender Plugin for N64 Development</h3>
-            <p data-i18n="fast64_role">As a developer for F3D and SM64 side, along with the experimental renderer
-                (OpenGL)!</p>
-
-            <div class="project">
-                <img src="images/pl.svg" data-i18n="pl_logo_alt" data-i18n-attr="alt" alt="Parallel Launcher Logo"
-                    class="project-logo"></img>
-                <h3 class="project-title">Parallel Launcher</h3>
-            </div>
-            <h3 data-i18n="pl_desc">N64 Emulator with a focus on ease of use and ROM hacks!</h3>
-            <p data-i18n="pl_role">As the translator for Portugual Portuguese.</p>
-        </div>
-
-        <div class="contact-card">
-            <h2 data-i18n="contact_heading">Let's chat!</h2>
-            <p data-i18n="contact_para1">
-                While you can DM me on Twitter or Twitch, I'd advise against it.
-            </p>
-            <p data-i18n="contact_para2"> Use Email and Discord as I check those every day!
-            </p>
-            <a href="mailto:lilaa3public@gmail.com" width="50" height="50">
-                <img src="images/mail.svg" alt="Email" class="social_icons" style="animation-delay: 0.0s;">
+            <a href="https://github.com/fast64/fast64" target="_blank" rel="noopener noreferrer" class="project-link">
+                <div class="project">
+                    <img src="images/fast64.svg" data-i18n="fast64_logo_alt" data-i18n-attr="alt" alt="Fast64 Logo"
+                        class="project-logo"></img>
+                    <h3 class="project-title">Fast 64</h3>
+                </div>
+                <h3 data-i18n="fast64_desc">Blender Plugin for N64 Development</h3>
+                <p data-i18n="fast64_role">As a developer for F3D and SM64 side, along with the experimental renderer
+                    (OpenGL)!</p>
             </a>
 
-            <button width="50" height="50" onclick="copyPopup('lilaa3', 'discord')">
-                <div id="copy-popup-discord" class="copy-popup">
-                    <span class="fake-link">@Lilaa3</span> <span data-i18n="copy_popup_text">(Copied to your
-                        clipboard!)</span>
+            <a href="https://github.com/parallel-launcher/parallel-launcher" target="_blank" rel="noopener noreferrer"
+                class="project-link">
+                <div class="project">
+                    <img src="images/pl.svg" data-i18n="pl_logo_alt" data-i18n-attr="alt" alt="Parallel Launcher Logo"
+                        class="project-logo"></img>
+                    <h3 class="project-title">Parallel Launcher</h3>
                 </div>
-                <img src="images/discord.svg" alt="Discord" class="social_icons" style="animation-delay: 0.1s;">
-            </button>
+                <h3 data-i18n="pl_desc">N64 Emulator with a focus on ease of use and ROM hacks!</h3>
+                <p data-i18n="pl_role">As the translator for Portugual Portuguese.</p>
+            </a>
+
+            <a href="https://github.com/Lilaa3/puppylang" target="_blank" rel="noopener noreferrer"
+                class="project-link">
+                <div class="project">
+                    <img src="images/puppylang.svg"
+                        alt="Puplang Logo" class="project-logo"></img>
+                    <h3 class="project-title">Puplang</h3>
+                </div>
+                <h3>Joke project. Esoteric obscured text encoding, using dog sounds.</h3>
+            </a>
         </div>
 
-    </div>
-
-    <audio id="copy-sound" src="sounds/discord-notification.mp3" preload="auto"></audio>
-
-    <footer>
+        <footer>
         <div id="footer-placeholder"></div>
     </footer>
 

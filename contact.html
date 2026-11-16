@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<script type="text/javascript" src="script.js"></script>
+
+<head>
+    <div id="head-placeholder"></div>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title data-i18n="contact_heading">Let's chat! - Lila's Website</title>
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <div id="nav-links">
+        <a href="index.html" class="nav-link" data-i18n="nav_home">Home</a>
+        <a href="blog.html" class="nav-link" data-i18n="nav_blog">Blog</a>
+    </div>
+
+    <div id="language-placeholder"></div>
+    <main class="blog-main">
+        <h1 data-i18n="contact_heading">Let's chat!</h1>
+
+        <div class="contact-card">
+            <p data-i18n="contact_para1">
+                While you can DM me on Twitter or Twitch, I'd advise against it.
+            </p>
+            <p data-i18n="contact_para2"> Use Email and Discord as I check those every day!
+            </p>
+            <a href="mailto:lilaa3public@gmail.com" width="50" height="50">
+                <img src="images/mail.svg" alt="Email" class="social_icons" style="animation-delay: 0.0s;">
+            </a>
+
+            <button width="50" height="50" onclick="copyPopup('lilaa3', 'discord')">
+                <div id="copy-popup-discord" class="copy-popup">
+                    <span class="fake-link">@Lilaa3</span> <span data-i18n="copy_popup_text">(Copied to your
+                        clipboard!)</span>
+                </div>
+                <img src="images/discord.svg" alt="Discord" class="social_icons" style="animation-delay: 0.1s;">
+            </button>
+        </div>
+    </main>
+
+    <audio id="copy-sound" src="sounds/discord-notification.mp3" preload="auto"></audio>
+
+    <footer>
+        <div id="footer-placeholder"></div>
+    </footer>
+
+</body>
+</html>
